@@ -2,6 +2,7 @@ const express = require('express');
 const { dbConnection } = require('./database/config');
 require ('dotenv').config();
 const cors = require('cors');
+const patch  = require('path')
 
 // crear servidor de express
 const app = express();
@@ -21,6 +22,10 @@ app.use ( express.json() );
 //rutas
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
+
+app.use('*', (req, res) => {
+    res.sendFile(patch.join(__ dirname, 'public/index.html'));
+} )
 
 //escuchar peticiones
 app.listen( process.env.PORT, () => {
