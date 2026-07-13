@@ -1,8 +1,9 @@
 const express = require('express');
 const { dbConnection } = require('./database/config');
-require ('dotenv').config();
+require('dotenv').config();
 const cors = require('cors');
-const patch  = require('path')
+// 1. Corregido: 'path' con h al final
+const path = require('path'); 
 
 // crear servidor de express
 const app = express();
@@ -17,15 +18,16 @@ app.use(cors());
 app.use( express.static('public'));
 
 //lectura y parseo del body
-app.use ( express.json() );
+app.use( express.json() );
 
 //rutas
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 
+// 2. Corregido: path.join y __dirname todo junto
 app.use('*', (req, res) => {
-    res.sendFile(patch.join(__ dirname, 'public/index.html'));
-} )
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 //escuchar peticiones
 app.listen( process.env.PORT, () => {
